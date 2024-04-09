@@ -52,7 +52,7 @@ export function DishCard({id, image, price, name, description, ingredients, cate
           <img src={dishImage} alt="imagem de um prato" />
           <button onClick={()=> handleDetails(id)}>{typeof name === "string" ? <><span>{name}</span><span>{`>`}</span></>: "Nome do prato >"}</button>
           <p>{!description.length > 0 ? "Esse prato ainda não tem uma descrição." : description}</p>
-          <span>{price ? formattedPrice : "R$ 25,00"}</span>
+          <span>{price ? formattedPrice : "R$ 00,00"}</span>
         </Content>
         {!alternativeProfile ?
           <ItemsControl handleItems={handleCardItems} quantity={items}>
