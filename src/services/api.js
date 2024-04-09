@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: 'https://foodexplorer-api-d5co.onrender.com',
+  baseURL: 'https://foodexplorer-api-xqqs.onrender.com',
   withCredentials: true
 });
