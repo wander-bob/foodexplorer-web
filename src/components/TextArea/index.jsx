@@ -2,9 +2,9 @@ import { Container } from "./styles";
 
 export function TextArea({id,title, placeholder, onChange, value}){
   return(
-    <Container onChange={onChange} >
+    <Container>
       <label htmlFor={id}>{title}</label>
-      <textarea id={id} placeholder={placeholder} value={value}></textarea>
+      <textarea id={id} placeholder={placeholder} value={value} onChange={onChange}></textarea>
     </Container>
   )
 }

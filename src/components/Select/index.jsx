@@ -13,7 +13,7 @@ export function Select({title, optionsData, selectedCategoryId, onChange}){
               <SelectRoot.Option 
                 key={`${option.title}-${option.id}`} 
                 value={option.title}
-                selected={selectedCategoryId === option.id}
+                defaultValue={selectedCategoryId === option.id}
               >
                   {option.label}
               </SelectRoot.Option>

@@ -9,7 +9,8 @@ export function Input({id, title, value, placeholder, type, onChange, required, 
         {type === "search" ? <SearchIcon size={20} /> : "" }
         <input autoFocus={autoFocus} id={id} type={type ?? "text" } 
           required={required ?? required}
-          placeholder={placeholder} onChange={onChange} value={value}
+          placeholder={placeholder} onChange={onChange} 
+          value={value}
         />
       </InputWrapper>
     </Container>

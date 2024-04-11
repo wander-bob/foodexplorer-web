@@ -18,8 +18,8 @@ import { TextArea } from "../../components/TextArea";
 import { Container } from "./styles";
 
 import { useAuth } from "../../hooks/auth";
-
 import { api } from "../../services/api";
+import { maskInputPrice } from "../../utils/maskInputPrice";
 
 export function New(){
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ export function New(){
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Refeições");
   const [price, setPrice] = useState("");
+  const [newPrice, setNewPrice] = useState("");
   const [description, setDescription] = useState("");
   
   const [ingredients, setIngredients] = useState([]);
@@ -49,22 +50,10 @@ export function New(){
   function handleRemoveIngredient(itemToRemove){
     setIngredients(prevState => prevState.filter(ingredient => ingredient !==itemToRemove))
   }
-  function handlePriceInput(value){
-    let newValue = new String(value);
-    //Limpa qualquer não número
-    newValue = value.replace(/([^0-9\,])/g,"");
-    //Formata a exibição dos valores que serão exibidos no input
-    newValue = newValue.replace(/(\d)/,"R$ $1");
-    //Adiciona os números seguintes após o R$ e espaço,
-    // e após dois números seguidos, adiciona uma vírgula
-    // e os demais números após a vírgula
-    newValue = newValue.replace(/(R\$\s\d)(\d)(\d{1,2})/,"$1$2,$3");
-    // Limita o input para no máximo 99,99;
-    newValue = newValue.replace(/(?<=^R\$\s\d{1,2}\,\d{2})(\d+)/,"");
-    //Padroniza o valor para Float para ser inserido no price.
-    const newPrice = Number(newValue.replace(/R\$\s/,"").replace(/\,/,"."));
-    setPrice(newPrice);
-    return newValue;
+  function handlePriceInput(inputValue){
+    const {maskedValue, value} = maskInputPrice(inputValue); 
+    setNewPrice(maskedValue)
+    setPrice(value)
   }
   function handleDishImage(event){
     const file = event.target.files[0];
@@ -79,7 +68,6 @@ export function New(){
     const dishData = {name, category, description, price, ingredients};
     try{
       const response = await api.post("/dishes", dishData);
-      console.log(response)
       if(image && image.name !== ""){
         const fileUploadForm = new FormData();
         fileUploadForm.append("image", image);
@@ -131,10 +119,11 @@ export function New(){
             <Ingredient isNew value={newIngredient} onChange={(e)=> setNewIngredient(e.target.value)} onClick={handleAddNewIngredient} />            
           </Section>
           <Input 
-            id="price" 
+            id="price"
             title="Preço" 
             placeholder="R$ 00,00"
-            onChange={(e) => {e.target.value = handlePriceInput(e.target.value)}}
+            value={newPrice}
+            onChange={(e) => handlePriceInput(e.target.value)}
           />
           <TextArea id="description" title="Descrição" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" onChange={(e)=> setDescription(e.target.value)}/>
           <Button  content="Salvar prato" onClick={handleSubmmit} />

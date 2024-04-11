@@ -18,8 +18,9 @@ import { TextArea } from "../../components/TextArea";
 import { Container } from "./styles";
 
 import { useAuth } from "../../hooks/auth";
-import { priceFormatter } from "../../utils/priceFormatter";
 import { api } from "../../services/api";
+import { maskInputPrice } from "../../utils/maskInputPrice";
+import { priceFormatter } from "../../utils/priceFormatter";
 
 
 export function Edit(){
@@ -32,11 +33,11 @@ export function Edit(){
   const [name, setName] = useState(dishData.name);
   const [category, setCategory] = useState(dishData.category);
   const [price, setPrice] = useState(dishData.price);
+  const [newPrice, setNewPrice] = useState("");
   const [description, setDescription] = useState(dishData.description);
   const [ingredients, setIngredients] = useState(dishData.ingredients);
   const [newIngredient, setNewIngredient] = useState("");
   const { user } = useAuth();
-  const priceFormatted = priceFormatter(price);
   const alternativeProfile = user.role === 'manager' ? true : false;
   function handleMenu(){
     setIsMenuOpen(!isMenuOpen);
@@ -50,23 +51,6 @@ export function Edit(){
   function handleRemoveIngredient(itemToRemove){
     setIngredients(prevState => prevState.filter(ingredient => ingredient !== itemToRemove))
   }
-  function handlePriceInput(value){
-    let newValue = new String(value);
-    //Limpa qualquer não número
-    newValue = value.replace(/([^0-9\,])/g,"");
-    //Formata a exibição dos valores que serão exibidos no input
-    newValue = newValue.replace(/(\d)/,"R$ $1");
-    //Adiciona os números seguintes após o R$ e espaço,
-    // e após dois números seguidos, adiciona uma vírgula
-    // e os demais números após a vírgula
-    newValue = newValue.replace(/(R\$\s\d)(\d)(\d{1,2})/,"$1$2,$3");
-    // Limita o input para no máximo 99,99;
-    newValue = newValue.replace(/(?<=^R\$\s\d{1,2}\,\d{2})(\d+)/,"");
-    //Padroniza o valor para Float para ser inserido no price.
-    const newPrice = newValue.replace(/R\$\s/,"").replace(/\,/,".");
-    setPrice(newPrice);
-    return newValue;
-  }
   function handleDishImage(event){
     const file = event.target.files[0];
     const regex = /\.png|\.jp\w?g/;
@@ -77,9 +61,7 @@ export function Edit(){
     setImage(file)
   }
   async function handleSubmmit(){
-    console.log(category)
     const dishUpdated = {name, category, description, price, ingredients};
-    console.log(dishUpdated)
     try{
       const response = await api.put(`/dishes/${dishData.id}`, dishUpdated);
       if(dishData.image !== image && image && image.name !== ""){
@@ -107,6 +89,11 @@ export function Edit(){
   function handlePreviousPage(){
     navigate(-1);
   }
+  function handlePriceInput(inputValue){
+    const {maskedValue, value} = maskInputPrice(inputValue); 
+    setNewPrice(maskedValue)
+    setPrice(value)
+  }
   useEffect(()=>{
     async function handleCategories(){
       try{
@@ -121,6 +108,9 @@ export function Edit(){
     }
     handleCategories();
   },[])
+  useEffect(()=>{
+    setNewPrice(priceFormatter(price))
+  },[price])
   return(
     <Container>
       <Header menuOpen={isMenuOpen} handleMenu={handleMenu} alternativeProfile={alternativeProfile}/>
@@ -145,10 +135,10 @@ export function Edit(){
           </Section>
           <Input 
             id="price"
-            value={priceFormatted} 
             title="Preço" 
             placeholder="R$ 00,00"
-            onChange={(e) => {e.target.value = handlePriceInput(e.target.value)}}
+            value={newPrice}
+            onChange={(e) => handlePriceInput(e.target.value)}
           />
           <TextArea id="description" title="Descrição" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" onChange={(e)=> setDescription(e.target.value)} value={description}/>
           <div>
