@@ -111,13 +111,14 @@ export function Edit(){
   useEffect(()=>{
     setNewPrice(priceFormatter(price))
   },[price])
+  
   return(
     <Container>
       <Header menuOpen={isMenuOpen} handleMenu={handleMenu} alternativeProfile={alternativeProfile}/>
       <SideBar isMenuOpen={isMenuOpen} alternativeProfile={alternativeProfile} />
       <Main>
       <button onClick={handlePreviousPage}><PiCaretLeft />voltar</button>
-      <h2>Novo prato</h2>
+      <h2>Editar prato</h2>
         <Form>
           <InputFile id="img" title="Imagem do prato" onChange={handleDishImage}/>
           <Input id="name" title="Nome" type="text" placeholder="Ex.: Salada Ceasar" onChange={(e)=> setName(e.target.value)} value={name} />

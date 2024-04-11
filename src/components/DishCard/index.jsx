@@ -12,7 +12,7 @@ import { useCart } from "../../hooks/cart";
 import {priceFormatter} from "../../utils/priceFormatter";
 import { api } from "../../services/api";
 
-export function DishCard({id, image, price, name, description, ingredients, categoryId, alternativeProfile}){
+export function DishCard({id, image, price, name, description, ingredients, category, categoryId, alternativeProfile}){
   const { addCartItem, getTotalCartItems } = useCart();
   const totalOnCart = getTotalCartItems(id);
   const dishImage = image ? `${api.defaults.baseURL}/files/${image}` : defaultImg;
@@ -35,7 +35,7 @@ export function DishCard({id, image, price, name, description, ingredients, cate
     navigate(`/dish/${data.id}/details`, {state: data})
   }
   function handleEdit(){
-    const data =  { id, image, price, name, description, ingredients, categoryId};
+    const data =  { id, image, price, name, description, ingredients, category, categoryId};
     navigate(`/dish/${data.id}/edit`, {state: data})
   }
   useEffect(()=>{

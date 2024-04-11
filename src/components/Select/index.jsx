@@ -7,13 +7,13 @@ export function Select({title, optionsData, selectedCategoryId, onChange}){
       <label htmlFor="custom-select">{title}</label>
       <SelectRoot.SelectWrapper>
         <Down />
-        <SelectRoot.Select id="custom-select" onChange={onChange}>
+        <SelectRoot.Select id="custom-select" onChange={onChange} defaultValue={"meal"}>
           {
             optionsData.map((option)=>(
               <SelectRoot.Option 
                 key={`${option.title}-${option.id}`} 
                 value={option.title}
-                defaultValue={selectedCategoryId === option.id}
+                selected={selectedCategoryId === option.id}
               >
                   {option.label}
               </SelectRoot.Option>

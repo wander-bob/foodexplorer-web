@@ -37,7 +37,7 @@ export function DishList({id, title, data, alternativeProfile}){
           {
             data.map((dishItem) => { return (
               <li key={dishItem.id} className="splide__slide">
-                <DishCard id={dishItem.id} name={dishItem.name} price={dishItem.price} description={dishItem.description} image={dishItem.image} ingredients={dishItem.ingredients} alternativeProfile={alternativeProfile} categoryId={id} />
+                <DishCard id={dishItem.id} name={dishItem.name} price={dishItem.price} description={dishItem.description} image={dishItem.image} ingredients={dishItem.ingredients} alternativeProfile={alternativeProfile} category={title} categoryId={id} />
               </li>
             )})
           }
