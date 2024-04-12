@@ -4,7 +4,7 @@ import { InputSearch } from "../InputSearch";
 import { Container } from "./styles";
 import { useAuth } from "../../hooks/auth";
 
-export function SideBar({isMenuOpen, alternativeProfile}){
+export function SideBar({isMenuOpen, alternativeProfile, handleSearch}){
   const navigate = useNavigate();
   const { signOut } = useAuth();
   function handleSignout(){
@@ -17,7 +17,7 @@ export function SideBar({isMenuOpen, alternativeProfile}){
   return(
     <Container className={isMenuOpen && "active"}>
       <Main>
-        <InputSearch />
+        <InputSearch autoFocus handleSearch={handleSearch}/>
         {alternativeProfile ? <button onClick={handleNew}>Novo prato</button> : ""}
         <button onClick={handleSignout}>Sair</button>
       </Main>

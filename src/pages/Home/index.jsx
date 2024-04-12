@@ -61,7 +61,7 @@ export function Home(){
           handleMenu={handleMenu}
           handleSearch={handleSearch}
         />
-        <SideBar isMenuOpen={menuOpen} alternativeProfile={alternativeProfile}/>
+        <SideBar isMenuOpen={menuOpen} alternativeProfile={alternativeProfile} handleSearch={handleSearch}/>
         <Main>
           <Banner />
           { data?.length > 0 ?

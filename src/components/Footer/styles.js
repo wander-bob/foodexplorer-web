@@ -31,7 +31,7 @@ export const Container = styled.footer`
     ${theme.fonts.dm_sans._100_regular};
     color: ${theme.colors.light._200};
   }
-  @media(max-width: 375px){
+  @media(max-width: 416px){
     > div > div {
       gap: 0.4rem;
       > h2 {
@@ -40,7 +40,7 @@ export const Container = styled.footer`
     }
     > span { 
       white-space: nowrap;
-      font-size: 0.8rem;
+      font-size: 1.2rem;
     }
   }
   @media (${theme.screens.medium}){
