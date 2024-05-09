@@ -46,7 +46,7 @@ export function Signup(){
     })
     .catch((error)=>{
       if(error.response){
-        alert(error.response);
+        alert(error.response.data.message);
       }else{
         alert("Não foi possível efetuar o cadastro.");
       }
