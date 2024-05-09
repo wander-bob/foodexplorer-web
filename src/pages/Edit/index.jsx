@@ -70,6 +70,7 @@ export function Edit(){
         await api.patch(`/dishes/${dishData.id}`, fileUploadForm);
       }
       alert(response.data.message);
+      handlePreviousPage();
     }catch(error){
       return alert(error.response.data.message);
     }
